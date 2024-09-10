@@ -1,11 +1,14 @@
-package props.service;
+package props.service.imp;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import props.exception.NotFoundException;
 import props.exception.ValidationException;
 import props.model.Form;
 import props.repository.FormRepository;
+import props.service.FormService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,20 +30,23 @@ public class FormServiceImp implements FormService {
     }
 
     @Override
-    public void addForms(Map<Integer, Integer> forms) {
+    public List<Form> addForms(Map<Integer, Integer> forms) {
         validationId(forms);
+        List<Form> formToSave = new ArrayList<>();
         List<Form> formsDb = repository.findAllById(forms.keySet());
         for (Form form : formsDb) {
             int quantityInDb = form.getQuantity();
             int quantityToAdditional = forms.get(form.getId());
             form.setQuantity(quantityInDb + quantityToAdditional);
-            repository.save(form);
+            formToSave.add(form);
         }
+        return repository.saveAll(formToSave);
     }
 
     @Override
-    public void subtractForms(Map<Integer, Integer> forms) {
+    public List<Form> subtractForms(Map<Integer, Integer> forms) {
         validationId(forms);
+        List<Form> formToSave = new ArrayList<>();
         List<Form> formsDb = repository.findAllById(forms.keySet());
         for (Form form : formsDb) {
             int quantityInDb = form.getQuantity();
@@ -50,21 +56,23 @@ public class FormServiceImp implements FormService {
                 result = 0;
             }
             form.setQuantity(result);
+            formToSave.add(form);
             repository.save(form);
         }
+        return repository.saveAll(formToSave);
     }
 
     private void validationId(Map<Integer, Integer> forms) {
         for (Integer id : forms.keySet()) {
             if (!repository.existsById(id)) {
-                throw new ValidationException("Бланка с id -" + id + "- не существует");
+                throw new NotFoundException("Бланка с id: " + id + " не существует");
             }
         }
     }
 
     private void validationName(Form form) {
         if (repository.existsByName(form.getName())) {
-            throw new ValidationException("Бланка с именем -" + form.getName() + "- уже существует");
+            throw new ValidationException("Бланк с именем:" + form.getName() + " уже существует");
         }
     }
 }

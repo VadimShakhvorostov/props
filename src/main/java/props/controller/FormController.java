@@ -12,7 +12,7 @@ import java.util.Map;
 @CrossOrigin("http://localhost:8080")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/form")
+@RequestMapping("/forms")
 @Validated
 public class FormController {
 
@@ -23,17 +23,17 @@ public class FormController {
         return service.getAllForms();
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public Form addNewForm(@RequestBody Form form) {
         return service.addNewForms(form);
     }
 
-    @PutMapping
+    @PostMapping("/add")
     public void addForm(@RequestBody Map<Integer, Integer> forms) {
         service.addForms(forms);
     }
 
-    @PutMapping("/subtract")
+    @PostMapping("/subtract")
     public void subtractForm(@RequestBody Map<Integer, Integer> forms) {
         service.subtractForms(forms);
     }

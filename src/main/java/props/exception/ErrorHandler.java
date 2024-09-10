@@ -13,4 +13,10 @@ public class ErrorHandler {
     public ExceptionRespons validation(final ValidationException ex) {
         return new ExceptionRespons(ex.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionRespons notFound(final NotFoundException ex) {
+        return new ExceptionRespons(ex.getMessage());
+    }
 }

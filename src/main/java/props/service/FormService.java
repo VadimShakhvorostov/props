@@ -12,9 +12,9 @@ public interface FormService {
 
     Form addNewForms(Form form);
 
-    void addForms(Map<Integer, Integer> forms);
+    List<Form> addForms(Map<Integer, Integer> forms);
 
-    void subtractForms(Map<Integer, Integer> forms);
+    List<Form> subtractForms(Map<Integer, Integer> forms);
 
 
 }
