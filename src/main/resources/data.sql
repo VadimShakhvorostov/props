@@ -1,0 +1,1 @@
+MERGE INTO forms (ID, NAME_FORMS, QUANTITY) VALUES (1, 'бланк 6', 1000), (2, 'бланк 3', 1000), (3, 'ЛЗ', 1000);
