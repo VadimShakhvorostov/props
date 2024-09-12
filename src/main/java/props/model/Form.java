@@ -24,6 +24,6 @@ public class Form {
     @Column(name = "QUANTITY")
     private int quantity;
 
-    //compositionId
+
 
 }

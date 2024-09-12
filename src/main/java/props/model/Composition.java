@@ -13,21 +13,15 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "Games")
-public class Game {
+@Table(name = "COMPOSITIONS")
+public class Composition {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(name = "NAME_GAME")
-    private String name;
-
-    @Column(name = "DIPLOMAS_ID")
-    private List<Integer> diplomasId;
-
-    @Column(name = "COMPOSITION_ID")
-
-    private int compositionId;
+    @Column(name = "RULES_ID")
+    @OneToMany
+    private List<Integer> rulesId;
 
 }

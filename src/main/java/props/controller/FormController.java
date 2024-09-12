@@ -29,12 +29,12 @@ public class FormController {
     }
 
     @PostMapping("/add")
-    public void addForm(@RequestBody Map<Integer, Integer> forms) {
-        service.addForms(forms);
+    public List<Form> addForm(@RequestBody Map<Integer, Integer> forms) {
+        return service.addForms(forms);
     }
 
     @PostMapping("/subtract")
-    public void subtractForm(@RequestBody Map<Integer, Integer> forms) {
-        service.subtractForms(forms);
+    public List<Form> subtractForm(@RequestBody Map<Integer, Integer> forms) {
+        return service.subtractForms(forms);
     }
 }

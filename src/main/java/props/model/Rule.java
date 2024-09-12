@@ -6,28 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "Games")
-public class Game {
+@Table(name = "RULES")
+public class Rule {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(name = "NAME_GAME")
-    private String name;
+    @Column(name = "ENTITY_ID")
+    private int entityId;
 
-    @Column(name = "DIPLOMAS_ID")
-    private List<Integer> diplomasId;
-
-    @Column(name = "COMPOSITION_ID")
-
-    private int compositionId;
-
+    @Column(name = "VALUED_USE")
+    private int valueToUse;
 }

@@ -1,6 +1,5 @@
 package props.service;
 
-
 import org.springframework.stereotype.Component;
 import props.model.Diploma;
 

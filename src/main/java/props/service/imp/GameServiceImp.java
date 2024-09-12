@@ -2,34 +2,77 @@ package props.service.imp;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import props.exception.NotFoundException;
 import props.exception.ValidationException;
-import props.model.Diploma;
-import props.model.Game;
-import props.model.GameIn;
-import props.model.GameOut;
-import props.repository.DiplomaRepository;
-import props.repository.FormRepository;
-import props.repository.GameRepository;
+import props.model.*;
+import props.repository.*;
 import props.service.GameService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class GameServiceImp implements GameService {
-    GameRepository gameRepository;
-    DiplomaRepository diplomaRepository;
-    FormRepository formRepository;
 
+    final GameRepository gameRepository;
+    final DiplomaRepository diplomaRepository;
+    final FormRepository formRepository;
+    final RuleRepository ruleRepository;
+    final CompositionRepository compositionRepository;
+    final static int QUANTITY_DIPLOMA_TO_SUBTRACTION = 1;
 
     @Override
-    public GameOut addGame(GameIn gameIn) {
+    public Game addGame(GameIn gameIn) {
 
-        validationGameId(gameIn);
+        validationGameName(gameIn);
         validationFormId(gameIn);
 
+        List<Integer> rulesId = saveRulesFromGame(gameIn);
+        int compositionId = saveComposition(rulesId);
 
+        List<Diploma> diplomas = saveDiplomasFromGame(gameIn);
+        List<Integer> diplomasId = new ArrayList<>();
+
+        for (Diploma diploma : diplomas) {
+            diplomasId.add(diploma.getId());
+        }
+
+        Game game = new Game();
+        game.setName(gameIn.getName());
+        game.setDiplomasId(diplomasId);
+        game.setCompositionId(compositionId);
+
+        return gameRepository.save(game);
+    }
+
+    private List<Integer> saveRulesFromGame(GameIn gameIn) {
+
+        List<Rule> rulesToBd = new ArrayList<>();
+        Map<Integer, Integer> rules = gameIn.getRules();
+
+        for (Integer id : rules.keySet()) {
+            Rule rule = new Rule();
+            rule.setEntityId(id);
+            rule.setValueToUse(rules.get(id));
+            rulesToBd.add(rule);
+        }
+
+        List<Rule> rulesToDb = ruleRepository.saveAll(rulesToBd);
+        List<Integer> rulesId = new ArrayList<>();
+        for (Rule rule : rulesToDb) {
+            rulesId.add(rule.getId());
+        }
+
+        return rulesId;
+    }
+
+    private Integer saveComposition(List<Integer> rulesId) {
+        Composition composition = new Composition();
+        composition.setRulesId(rulesId);
+        return compositionRepository.save(composition).getId();
+    }
+
+    private List<Diploma> saveDiplomasFromGame(GameIn gameIn) {
         List<Diploma> diplomaToBd = new ArrayList<>();
         for (Integer diplomaPosition : gameIn.getDiplomas().keySet()) {
             Diploma diploma = new Diploma();
@@ -37,50 +80,70 @@ public class GameServiceImp implements GameService {
             diploma.setQuantity(gameIn.getDiplomas().get(diplomaPosition));
             diplomaToBd.add(diploma);
         }
+        return diplomaRepository.saveAll(diplomaToBd);
+    }
 
-        List<Diploma> diplomas = diplomaRepository.saveAll(diplomaToBd);
-        List<Integer> diplomasId = new ArrayList<>();
-        for (Diploma diploma : diplomas) {
-            diplomasId.add(diploma.getId());
+    public void event(Map<Integer, Integer> map) {
+        for (Integer id : map.keySet()) {
+
+            Optional<Game> game = gameRepository.findById(id);
+            if (game.isEmpty()) {
+                throw new NotFoundException("Игры с id " + id + " не существует");
+            }
+
+            Optional<Composition> composition = compositionRepository.findById(game.get().getCompositionId());
+            if (composition.isEmpty()) {
+                throw new NotFoundException("Состава с id " + id + " не существует");
+            }
+
+            List<Rule> rules = ruleRepository.findAllById(composition.get().getRulesId());
+
+            for (Rule rule : rules) {
+                int formId = rule.getEntityId();
+
+                int valueToSubtraction = rule.getValueToUse() * map.get(id);
+
+
+                Optional<Form> form = formRepository.findById(formId);
+                if (form.isEmpty()) {
+                    throw new NotFoundException("Бланка с id: " + id + " не существует");
+                }
+
+                int quantityInDb = form.get().getQuantity();
+
+                int result = quantityInDb - valueToSubtraction;
+                if (result < 0) {
+                    result = 0;
+                }
+
+                form.get().setQuantity(result);
+
+                formRepository.save(form.get());
+            }
+
+            List<Diploma> diplomas = diplomaRepository.findAllById(game.get().getDiplomasId());
+            for (Diploma diploma : diplomas) {
+                int quantityInDb = diploma.getQuantity();
+                diploma.setQuantity(quantityInDb - QUANTITY_DIPLOMA_TO_SUBTRACTION);
+                diplomaRepository.save(diploma);
+            }
         }
-
-        Game game = new Game();
-        game.setName(gameIn.getName());
-        game.setFormsId(gameIn.getFormsId());
-        game.setDiplomasId(diplomasId);
-        Game gameDb = gameRepository.save(game);
-
-        GameOut gameOut = new GameOut();
-        gameOut.setName(gameIn.getName());
-        gameOut.setId(gameDb.getId());
-        gameOut.setDiplomas(diplomas);
-        gameOut.setFormsId(gameIn.getFormsId());
-        return gameOut;
     }
 
     @Override
-    public List<GameOut> getAllGame() {
-        List<GameOut> gamesOut = new ArrayList<>();
-        List<Game> games = gameRepository.findAll();
-        for (Game game : games) {
-            GameOut gameOut = new GameOut();
-            gameOut.setId(game.getId());
-            gameOut.setName(game.getName());
-            gameOut.setFormsId(game.getFormsId());
-            gameOut.setDiplomas(diplomaRepository.findAllById(game.getDiplomasId()));
-            gamesOut.add(gameOut);
-        }
-        return gamesOut;
+    public List<Game> getAllGame() {
+        return gameRepository.findAll();
     }
 
-    private void validationGameId(GameIn gameIn) {
+
+    private void validationGameName(GameIn gameIn) {
         if (gameRepository.existsByName(gameIn.getName())) {
             throw new ValidationException("Игра с именем " + gameIn.getName() + " уже существует");
         }
     }
 
     private void validationFormId(GameIn gameIn) {
-        List<Integer> formId = gameIn.getFormsId();
+        Set<Integer> formId = gameIn.getRules().keySet();
         for (Integer id : formId) {
             if (!formRepository.existsById(id)) {
                 throw new ValidationException("Бланка с id " + id + " не существует");

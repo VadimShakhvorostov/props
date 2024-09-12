@@ -3,11 +3,12 @@ package props.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import props.model.Game;
 import props.model.GameIn;
-import props.model.GameOut;
 import props.service.imp.GameServiceImp;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("http://localhost:8080")
 @AllArgsConstructor
@@ -19,13 +20,17 @@ public class GameController {
     GameServiceImp gameService;
 
     @GetMapping
-    public List<GameOut> getAllGame() {
+    public List<Game> getAllGame() {
         return gameService.getAllGame();
     }
 
     @PostMapping("/add")
-    public GameOut addGame(@RequestBody GameIn gameIn) {
+    public Game addGame(@RequestBody GameIn gameIn) {
         return gameService.addGame(gameIn);
     }
 
+    @PostMapping("/event")
+    public void event(@RequestBody Map<Integer, Integer> map) {
+        gameService.event(map);
+    }
 }

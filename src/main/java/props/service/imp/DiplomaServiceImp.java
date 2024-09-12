@@ -61,6 +61,4 @@ public class DiplomaServiceImp implements DiplomaService {
             }
         }
     }
-
-    //не слышу тебя
 }
