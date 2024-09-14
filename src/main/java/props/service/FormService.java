@@ -1,6 +1,7 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import props.model.Form;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public interface FormService {
     List<Form> addForms(Map<Integer, Integer> forms);
 
     List<Form> subtractForms(Map<Integer, Integer> forms);
+    List<Form> updateForm(Map<Integer, Integer> forms);
 
 
 }

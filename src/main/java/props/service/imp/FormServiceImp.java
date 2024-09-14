@@ -75,4 +75,17 @@ public class FormServiceImp implements FormService {
             throw new ValidationException("Бланк с именем:" + form.getName() + " уже существует");
         }
     }
+
+    @Override
+    public List<Form> updateForm(Map<Integer, Integer> forms) {
+        validationId(forms);
+        List<Form> formToSave = new ArrayList<>();
+        List<Form> formsDb = repository.findAllById(forms.keySet());
+        for (Form form : formsDb) {
+            int quantityToUpdate = forms.get(form.getId());
+            form.setQuantity(quantityToUpdate);
+            formToSave.add(form);
+        }
+        return repository.saveAll(formToSave);
+    }
 }

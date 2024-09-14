@@ -1,6 +1,7 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import props.model.Diploma;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface DiplomaService {
     List<Diploma> addDiplomas(Map<Integer, Integer> diplomas);
 
     List<Diploma> subtractDiplomas(Map<Integer, Integer> diplomas);
+    List<Diploma> updateDiploma(Map<Integer, Integer> diplomas);
 }

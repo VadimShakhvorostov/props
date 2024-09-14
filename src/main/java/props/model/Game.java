@@ -27,7 +27,6 @@ public class Game {
     private List<Integer> diplomasId;
 
     @Column(name = "COMPOSITION_ID")
-
     private int compositionId;
 
 }

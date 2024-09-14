@@ -16,25 +16,30 @@ import java.util.Map;
 @Validated
 public class FormController {
 
-    FormService service;
+    FormService formService;
 
     @GetMapping
     public List<Form> getAllForm() {
-        return service.getAllForms();
+        return formService.getAllForms();
     }
 
     @PostMapping("/new")
     public Form addNewForm(@RequestBody Form form) {
-        return service.addNewForms(form);
+        return formService.addNewForms(form);
     }
 
     @PostMapping("/add")
     public List<Form> addForm(@RequestBody Map<Integer, Integer> forms) {
-        return service.addForms(forms);
+        return formService.addForms(forms);
     }
 
     @PostMapping("/subtract")
     public List<Form> subtractForm(@RequestBody Map<Integer, Integer> forms) {
-        return service.subtractForms(forms);
+        return formService.subtractForms(forms);
+    }
+
+    @PostMapping("/update")
+    public List<Form> updateForm(@RequestBody Map<Integer, Integer> forms) {
+        return formService.updateForm(forms);
     }
 }

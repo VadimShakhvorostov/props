@@ -21,7 +21,6 @@ public class Composition {
     private int id;
 
     @Column(name = "RULES_ID")
-    @OneToMany
     private List<Integer> rulesId;
 
 }

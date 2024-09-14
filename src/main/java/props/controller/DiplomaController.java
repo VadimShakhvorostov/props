@@ -1,8 +1,6 @@
 package props.controller;
 
-
 import lombok.AllArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import props.model.Diploma;
 import props.service.DiplomaService;
@@ -14,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/diplomas")
-@Validated
+
 public class DiplomaController {
 
     DiplomaService diplomaService;
@@ -32,5 +30,10 @@ public class DiplomaController {
     @PostMapping("/subtract")
     public List<Diploma> subtractDiplomas(@RequestBody Map<Integer, Integer> diplomas) {
         return diplomaService.subtractDiplomas(diplomas);
+    }
+
+    @PostMapping("/update")
+    public List<Diploma> updateDiploma(@RequestBody Map<Integer, Integer> diplomas) {
+        return diplomaService.updateDiploma(diplomas);
     }
 }

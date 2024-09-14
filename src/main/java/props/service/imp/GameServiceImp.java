@@ -83,6 +83,7 @@ public class GameServiceImp implements GameService {
         return diplomaRepository.saveAll(diplomaToBd);
     }
 
+    @Override
     public void event(Map<Integer, Integer> map) {
         for (Integer id : map.keySet()) {
 

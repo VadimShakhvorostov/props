@@ -1,7 +1,6 @@
 package props.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import props.model.Game;
 import props.model.GameIn;
@@ -14,10 +13,9 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/games")
-@Validated
 public class GameController {
 
-    GameServiceImp gameService;
+    final GameServiceImp gameService;
 
     @GetMapping
     public List<Game> getAllGame() {

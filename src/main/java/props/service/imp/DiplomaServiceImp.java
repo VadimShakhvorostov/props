@@ -61,4 +61,17 @@ public class DiplomaServiceImp implements DiplomaService {
             }
         }
     }
+
+    @Override
+    public List<Diploma> updateDiploma(Map<Integer, Integer> diplomas) {
+        validationId(diplomas);
+        List<Diploma> diplomaToSave = new ArrayList<>();
+        List<Diploma> diplomasDb = diplomaRepository.findAllById(diplomas.keySet());
+        for (Diploma diploma : diplomasDb) {
+            int quantityToUpdate = diplomas.get(diploma.getId());
+            diploma.setQuantity(quantityToUpdate);
+            diplomaToSave.add(diploma);
+        }
+        return diplomaRepository.saveAll(diplomaToSave);
+    }
 }
