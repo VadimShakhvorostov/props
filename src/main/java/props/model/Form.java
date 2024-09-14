@@ -17,9 +17,13 @@ public class Form {
     @Id
     @GeneratedValue
     private int id;
+
     @Column(name = "NAME_FORMS")
     private String name;
+
     @Column(name = "QUANTITY")
     private int quantity;
+
+
 
 }

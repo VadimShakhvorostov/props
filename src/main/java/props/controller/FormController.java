@@ -12,29 +12,34 @@ import java.util.Map;
 @CrossOrigin("http://localhost:8080")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/form")
+@RequestMapping("/forms")
 @Validated
 public class FormController {
 
-    FormService service;
+    FormService formService;
 
     @GetMapping
     public List<Form> getAllForm() {
-        return service.getAllForms();
+        return formService.getAllForms();
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public Form addNewForm(@RequestBody Form form) {
-        return service.addNewForms(form);
+        return formService.addNewForms(form);
     }
 
-    @PutMapping
-    public void addForm(@RequestBody Map<Integer, Integer> forms) {
-        service.addForms(forms);
+    @PostMapping("/add")
+    public List<Form> addForm(@RequestBody Map<Integer, Integer> forms) {
+        return formService.addForms(forms);
     }
 
-    @PutMapping("/subtract")
-    public void subtractForm(@RequestBody Map<Integer, Integer> forms) {
-        service.subtractForms(forms);
+    @PostMapping("/subtract")
+    public List<Form> subtractForm(@RequestBody Map<Integer, Integer> forms) {
+        return formService.subtractForms(forms);
+    }
+
+    @PostMapping("/update")
+    public List<Form> updateForm(@RequestBody Map<Integer, Integer> forms) {
+        return formService.updateForm(forms);
     }
 }

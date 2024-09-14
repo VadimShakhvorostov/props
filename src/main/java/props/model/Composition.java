@@ -6,19 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "DIPLOMAS")
-public class Diploma {
+@Table(name = "COMPOSITIONS")
+public class Composition {
 
     @Id
     @GeneratedValue
     private int id;
-    @Column(name = "POSITION")
-    private int position;
-    @Column(name = "QUANTITY")
-    private int quantity;
+
+    @Column(name = "RULES_ID")
+    private List<Integer> rulesId;
+
 }
