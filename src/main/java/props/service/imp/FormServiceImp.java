@@ -16,38 +16,38 @@ import java.util.Map;
 @AllArgsConstructor
 public class FormServiceImp implements FormService {
 
-    FormRepository repository;
+    FormRepository formRepository;
 
     @Override
     public List<Form> getAllForms() {
-        return repository.findAll();
+        return formRepository.findAll();
     }
 
     @Override
     public Form addNewForms(Form form) {
         validationName(form);
-        return repository.save(form);
+        return formRepository.save(form);
     }
 
     @Override
     public List<Form> addForms(Map<Integer, Integer> forms) {
         validationId(forms);
         List<Form> formToSave = new ArrayList<>();
-        List<Form> formsDb = repository.findAllById(forms.keySet());
+        List<Form> formsDb = formRepository.findAllById(forms.keySet());
         for (Form form : formsDb) {
             int quantityInDb = form.getQuantity();
             int quantityToAdditional = forms.get(form.getId());
             form.setQuantity(quantityInDb + quantityToAdditional);
             formToSave.add(form);
         }
-        return repository.saveAll(formToSave);
+        return formRepository.saveAll(formToSave);
     }
 
     @Override
     public List<Form> subtractForms(Map<Integer, Integer> forms) {
         validationId(forms);
         List<Form> formToSave = new ArrayList<>();
-        List<Form> formsDb = repository.findAllById(forms.keySet());
+        List<Form> formsDb = formRepository.findAllById(forms.keySet());
         for (Form form : formsDb) {
             int quantityInDb = form.getQuantity();
             int quantityToSubtraction = forms.get(form.getId());
@@ -57,21 +57,21 @@ public class FormServiceImp implements FormService {
             }
             form.setQuantity(result);
             formToSave.add(form);
-            repository.save(form);
+            formRepository.save(form);
         }
-        return repository.saveAll(formToSave);
+        return formRepository.saveAll(formToSave);
     }
 
     private void validationId(Map<Integer, Integer> forms) {
         for (Integer id : forms.keySet()) {
-            if (!repository.existsById(id)) {
+            if (!formRepository.existsById(id)) {
                 throw new NotFoundException("Бланка с id: " + id + " не существует");
             }
         }
     }
 
     private void validationName(Form form) {
-        if (repository.existsByName(form.getName())) {
+        if (formRepository.existsByName(form.getName())) {
             throw new ValidationException("Бланк с именем:" + form.getName() + " уже существует");
         }
     }
@@ -80,12 +80,12 @@ public class FormServiceImp implements FormService {
     public List<Form> updateForm(Map<Integer, Integer> forms) {
         validationId(forms);
         List<Form> formToSave = new ArrayList<>();
-        List<Form> formsDb = repository.findAllById(forms.keySet());
+        List<Form> formsDb = formRepository.findAllById(forms.keySet());
         for (Form form : formsDb) {
             int quantityToUpdate = forms.get(form.getId());
             form.setQuantity(quantityToUpdate);
             formToSave.add(form);
         }
-        return repository.saveAll(formToSave);
+        return formRepository.saveAll(formToSave);
     }
 }
