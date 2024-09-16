@@ -14,55 +14,45 @@ import java.util.*;
 @AllArgsConstructor
 public class GameServiceImp implements GameService {
 
-    final GameRepository gameRepository;
-    final DiplomaRepository diplomaRepository;
-    final FormRepository formRepository;
-    final RuleRepository ruleRepository;
-    final CompositionRepository compositionRepository;
-    final static int QUANTITY_DIPLOMA_TO_SUBTRACTION = 1;
+    private final GameRepository gameRepository;
+    private final DiplomaRepository diplomaRepository;
+    private final FormRepository formRepository;
+    private final RuleRepository ruleRepository;
+    private final CompositionRepository compositionRepository;
+    private final static int QUANTITY_DIPLOMA_TO_SUBTRACTION = 1;
 
     @Override
     public Game addGame(GameIn gameIn) {
-
         validationGameName(gameIn);
         validationFormId(gameIn);
-
         List<Integer> rulesId = saveRulesFromGame(gameIn);
         int compositionId = saveComposition(rulesId);
-
         List<Diploma> diplomas = saveDiplomasFromGame(gameIn);
         List<Integer> diplomasId = new ArrayList<>();
-
         for (Diploma diploma : diplomas) {
             diplomasId.add(diploma.getId());
         }
-
         Game game = new Game();
         game.setName(gameIn.getName());
         game.setDiplomasId(diplomasId);
         game.setCompositionId(compositionId);
-
         return gameRepository.save(game);
     }
 
     private List<Integer> saveRulesFromGame(GameIn gameIn) {
-
         List<Rule> rulesToBd = new ArrayList<>();
         Map<Integer, Integer> rules = gameIn.getRules();
-
         for (Integer id : rules.keySet()) {
             Rule rule = new Rule();
             rule.setEntityId(id);
             rule.setValueToUse(rules.get(id));
             rulesToBd.add(rule);
         }
-
         List<Rule> rulesToDb = ruleRepository.saveAll(rulesToBd);
         List<Integer> rulesId = new ArrayList<>();
         for (Rule rule : rulesToDb) {
             rulesId.add(rule.getId());
         }
-
         return rulesId;
     }
 
@@ -86,39 +76,28 @@ public class GameServiceImp implements GameService {
     @Override
     public void event(Map<Integer, Integer> map) {
         for (Integer id : map.keySet()) {
-
             Optional<Game> game = gameRepository.findById(id);
             if (game.isEmpty()) {
                 throw new NotFoundException("Игры с id " + id + " не существует");
             }
-
             Optional<Composition> composition = compositionRepository.findById(game.get().getCompositionId());
             if (composition.isEmpty()) {
                 throw new NotFoundException("Состава с id " + id + " не существует");
             }
-
             List<Rule> rules = ruleRepository.findAllById(composition.get().getRulesId());
-
             for (Rule rule : rules) {
                 int formId = rule.getEntityId();
-
                 int valueToSubtraction = rule.getValueToUse() * map.get(id);
-
-
                 Optional<Form> form = formRepository.findById(formId);
                 if (form.isEmpty()) {
                     throw new NotFoundException("Бланка с id: " + id + " не существует");
                 }
-
                 int quantityInDb = form.get().getQuantity();
-
                 int result = quantityInDb - valueToSubtraction;
                 if (result < 0) {
                     result = 0;
                 }
-
                 form.get().setQuantity(result);
-
                 formRepository.save(form.get());
             }
 
