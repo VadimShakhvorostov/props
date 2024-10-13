@@ -1,8 +1,7 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import props.model.Form;
+import props.entity.Form;
 
 import java.util.List;
 import java.util.Map;

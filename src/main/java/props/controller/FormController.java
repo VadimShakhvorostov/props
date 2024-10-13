@@ -3,7 +3,7 @@ package props.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import props.model.Form;
+import props.entity.Form;
 import props.service.FormService;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import props.exception.NotFoundException;
 import props.exception.ValidationException;
-import props.model.Form;
+import props.entity.Form;
 import props.repository.FormRepository;
 import props.service.FormService;
 

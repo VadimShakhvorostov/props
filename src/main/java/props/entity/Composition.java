@@ -1,4 +1,4 @@
-package props.model;
+package props.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

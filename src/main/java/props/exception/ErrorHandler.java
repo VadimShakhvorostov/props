@@ -19,4 +19,10 @@ public class ErrorHandler {
     public ExceptionRespons notFound(final NotFoundException ex) {
         return new ExceptionRespons(ex.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus
+    public ExceptionRespons run(final RuntimeException ex) {
+        return new ExceptionRespons(ex.getMessage());
+    }
 }

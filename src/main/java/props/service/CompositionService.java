@@ -1,7 +1,7 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
-import props.model.Composition;
+import props.entity.Composition;
 
 import java.util.List;
 

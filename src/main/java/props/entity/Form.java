@@ -1,4 +1,4 @@
-package props.model;
+package props.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,16 +11,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "RULES")
-public class Rule {
+@Table(name = "FORMS")
+public class Form {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(name = "ENTITY_ID")
-    private int entityId;
+    @Column(name = "NAME_FORMS")
+    private String name;
 
-    @Column(name = "VALUED_USE")
-    private int valueToUse;
+    @Column(name = "QUANTITY")
+    private int quantity;
+
+
+
 }

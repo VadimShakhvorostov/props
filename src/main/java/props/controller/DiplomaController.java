@@ -2,7 +2,7 @@ package props.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import props.model.Diploma;
+import props.entity.Diploma;
 import props.service.DiplomaService;
 
 import java.util.List;
@@ -12,7 +12,6 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/diplomas")
-
 public class DiplomaController {
 
     DiplomaService diplomaService;

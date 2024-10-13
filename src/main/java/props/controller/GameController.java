@@ -2,8 +2,8 @@ package props.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import props.model.Game;
-import props.model.GameIn;
+import props.entity.Game;
+import props.entity.GameIn;
 import props.service.imp.GameServiceImp;
 
 import java.util.List;

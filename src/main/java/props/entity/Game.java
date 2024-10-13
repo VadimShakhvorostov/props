@@ -1,17 +1,13 @@
-package props.model;
+package props.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "Games")
 public class Game {
@@ -28,5 +24,9 @@ public class Game {
 
     @Column(name = "COMPOSITION_ID")
     private int compositionId;
+
+    @Version
+    @Setter(AccessLevel.NONE)
+    private int version;
 
 }

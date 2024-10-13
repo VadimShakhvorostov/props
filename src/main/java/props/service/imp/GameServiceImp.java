@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import props.exception.NotFoundException;
 import props.exception.ValidationException;
-import props.model.*;
+import props.entity.*;
 import props.repository.*;
 import props.service.GameService;
 
@@ -25,6 +25,8 @@ public class GameServiceImp implements GameService {
     public Game addGame(GameIn gameIn) {
         validationGameName(gameIn);
         validationFormId(gameIn);
+
+
         List<Integer> rulesId = saveRulesFromGame(gameIn);
         int compositionId = saveComposition(rulesId);
         List<Diploma> diplomas = saveDiplomasFromGame(gameIn);

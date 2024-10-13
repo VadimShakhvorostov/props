@@ -1,8 +1,8 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
-import props.model.Game;
-import props.model.GameIn;
+import props.entity.Game;
+import props.entity.GameIn;
 
 import java.util.List;
 import java.util.Map;
