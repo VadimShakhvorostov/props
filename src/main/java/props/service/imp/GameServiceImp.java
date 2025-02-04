@@ -2,9 +2,14 @@ package props.service.imp;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import props.dto.composition.Composition;
+import props.dto.diploma.Diploma;
+import props.dto.forms.FormEntity;
+import props.dto.game.Game;
+import props.dto.game.GameIn;
+import props.dto.rule.Rule;
 import props.exception.NotFoundException;
 import props.exception.ValidationException;
-import props.model.*;
 import props.repository.*;
 import props.service.GameService;
 
@@ -88,7 +93,7 @@ public class GameServiceImp implements GameService {
             for (Rule rule : rules) {
                 int formId = rule.getEntityId();
                 int valueToSubtraction = rule.getValueToUse() * map.get(id);
-                Optional<Form> form = formRepository.findById(formId);
+                Optional<FormEntity> form = formRepository.findById(formId);
                 if (form.isEmpty()) {
                     throw new NotFoundException("Бланка с id: " + id + " не существует");
                 }

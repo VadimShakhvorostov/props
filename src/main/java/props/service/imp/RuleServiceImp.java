@@ -2,7 +2,7 @@ package props.service.imp;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import props.model.Rule;
+import props.dto.rule.Rule;
 import props.repository.RuleRepository;
 import props.service.RuleService;
 

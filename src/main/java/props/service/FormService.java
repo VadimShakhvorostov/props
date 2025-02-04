@@ -1,22 +1,21 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import props.model.Form;
+import props.dto.forms.FormEntity;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
 public interface FormService {
-    List<Form> getAllForms();
+    List<FormEntity> getAllForms();
 
-    Form addNewForms(Form form);
+    FormEntity addNewForms(FormEntity formEntity);
 
-    List<Form> addForms(Map<Integer, Integer> forms);
+    List<FormEntity> addForms(Map<Integer, Integer> forms);
 
-    List<Form> subtractForms(Map<Integer, Integer> forms);
-    List<Form> updateForm(Map<Integer, Integer> forms);
+    List<FormEntity> subtractForms(Map<Integer, Integer> forms);
+    List<FormEntity> updateForm(Map<Integer, Integer> forms);
 
 
 }

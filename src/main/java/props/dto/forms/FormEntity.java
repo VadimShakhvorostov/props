@@ -1,4 +1,4 @@
-package props.model;
+package props.dto.forms;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,19 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "DIPLOMAS")
-public class Diploma {
+@Table(name = "forms")
+public class FormEntity {
 
     @Id
-    @GeneratedValue
-    private int id;
-    @Column(name = "POSITION")
-    private int position;
-    @Column(name = "QUANTITY")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
+    private String title;
     private int quantity;
+
 }

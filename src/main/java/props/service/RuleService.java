@@ -2,7 +2,7 @@ package props.service;
 
 
 import org.springframework.stereotype.Component;
-import props.model.Rule;
+import props.dto.rule.Rule;
 
 import java.util.List;
 

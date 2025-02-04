@@ -1,4 +1,4 @@
-package props.model;
+package props.dto.game;
 
 import lombok.*;
 

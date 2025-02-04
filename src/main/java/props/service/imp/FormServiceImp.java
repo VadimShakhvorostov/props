@@ -2,9 +2,9 @@ package props.service.imp;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import props.dto.forms.FormEntity;
 import props.exception.NotFoundException;
 import props.exception.ValidationException;
-import props.model.Form;
 import props.repository.FormRepository;
 import props.service.FormService;
 
@@ -19,47 +19,47 @@ public class FormServiceImp implements FormService {
     FormRepository formRepository;
 
     @Override
-    public List<Form> getAllForms() {
+    public List<FormEntity> getAllForms() {
         return formRepository.findAll();
     }
 
     @Override
-    public Form addNewForms(Form form) {
-        validationName(form);
-        return formRepository.save(form);
+    public FormEntity addNewForms(FormEntity formEntity) {
+        validationName(formEntity);
+        return formRepository.save(formEntity);
     }
 
     @Override
-    public List<Form> addForms(Map<Integer, Integer> forms) {
+    public List<FormEntity> addForms(Map<Integer, Integer> forms) {
         validationId(forms);
-        List<Form> formToSave = new ArrayList<>();
-        List<Form> formsDb = formRepository.findAllById(forms.keySet());
-        for (Form form : formsDb) {
-            int quantityInDb = form.getQuantity();
-            int quantityToAdditional = forms.get(form.getId());
-            form.setQuantity(quantityInDb + quantityToAdditional);
-            formToSave.add(form);
+        List<FormEntity> formEntityToSave = new ArrayList<>();
+        List<FormEntity> formsDb = formRepository.findAllById(forms.keySet());
+        for (FormEntity formEntity : formsDb) {
+            int quantityInDb = formEntity.getQuantity();
+            int quantityToAdditional = forms.get(formEntity.getId());
+            formEntity.setQuantity(quantityInDb + quantityToAdditional);
+            formEntityToSave.add(formEntity);
         }
-        return formRepository.saveAll(formToSave);
+        return formRepository.saveAll(formEntityToSave);
     }
 
     @Override
-    public List<Form> subtractForms(Map<Integer, Integer> forms) {
+    public List<FormEntity> subtractForms(Map<Integer, Integer> forms) {
         validationId(forms);
-        List<Form> formToSave = new ArrayList<>();
-        List<Form> formsDb = formRepository.findAllById(forms.keySet());
-        for (Form form : formsDb) {
-            int quantityInDb = form.getQuantity();
-            int quantityToSubtraction = forms.get(form.getId());
+        List<FormEntity> formEntityToSave = new ArrayList<>();
+        List<FormEntity> formsDb = formRepository.findAllById(forms.keySet());
+        for (FormEntity formEntity : formsDb) {
+            int quantityInDb = formEntity.getQuantity();
+            int quantityToSubtraction = forms.get(formEntity.getId());
             int result = quantityInDb - quantityToSubtraction;
             if (result < 0) {
                 result = 0;
             }
-            form.setQuantity(result);
-            formToSave.add(form);
-            formRepository.save(form);
+            formEntity.setQuantity(result);
+            formEntityToSave.add(formEntity);
+            formRepository.save(formEntity);
         }
-        return formRepository.saveAll(formToSave);
+        return formRepository.saveAll(formEntityToSave);
     }
 
     private void validationId(Map<Integer, Integer> forms) {
@@ -70,22 +70,22 @@ public class FormServiceImp implements FormService {
         }
     }
 
-    private void validationName(Form form) {
-        if (formRepository.existsByName(form.getName())) {
-            throw new ValidationException("Бланк с именем:" + form.getName() + " уже существует");
+    private void validationName(FormEntity formEntity) {
+        if (formRepository.existsByName(formEntity.getName())) {
+            throw new ValidationException("Бланк с именем:" + formEntity.getName() + " уже существует");
         }
     }
 
     @Override
-    public List<Form> updateForm(Map<Integer, Integer> forms) {
+    public List<FormEntity> updateForm(Map<Integer, Integer> forms) {
         validationId(forms);
-        List<Form> formToSave = new ArrayList<>();
-        List<Form> formsDb = formRepository.findAllById(forms.keySet());
-        for (Form form : formsDb) {
-            int quantityToUpdate = forms.get(form.getId());
-            form.setQuantity(quantityToUpdate);
-            formToSave.add(form);
+        List<FormEntity> formEntityToSave = new ArrayList<>();
+        List<FormEntity> formsDb = formRepository.findAllById(forms.keySet());
+        for (FormEntity formEntity : formsDb) {
+            int quantityToUpdate = forms.get(formEntity.getId());
+            formEntity.setQuantity(quantityToUpdate);
+            formEntityToSave.add(formEntity);
         }
-        return formRepository.saveAll(formToSave);
+        return formRepository.saveAll(formEntityToSave);
     }
 }

@@ -1,4 +1,4 @@
-package props.model;
+package props.dto.composition;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,24 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "FORMS")
-public class Form {
+@Table(name = "COMPOSITIONS")
+public class Composition {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(name = "NAME_FORMS")
-    private String name;
-
-    @Column(name = "QUANTITY")
-    private int quantity;
-
-
+    @Column(name = "RULES_ID")
+    private List<Integer> rulesId;
 
 }

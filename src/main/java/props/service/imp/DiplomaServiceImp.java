@@ -3,7 +3,7 @@ package props.service.imp;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import props.exception.NotFoundException;
-import props.model.Diploma;
+import props.dto.diploma.Diploma;
 import props.repository.DiplomaRepository;
 import props.service.DiplomaService;
 

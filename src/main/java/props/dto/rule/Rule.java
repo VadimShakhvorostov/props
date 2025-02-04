@@ -1,4 +1,4 @@
-package props.model;
+package props.dto.rule;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

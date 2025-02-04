@@ -2,7 +2,7 @@ package props.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import props.model.Diploma;
+import props.dto.diploma.Diploma;
 import props.service.DiplomaService;
 
 import java.util.List;

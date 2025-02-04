@@ -1,4 +1,4 @@
-package props.model;
+package props.dto.diploma;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,21 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "COMPOSITIONS")
-public class Composition {
+@Table(name = "DIPLOMAS")
+public class Diploma {
 
     @Id
     @GeneratedValue
     private int id;
-
-    @Column(name = "RULES_ID")
-    private List<Integer> rulesId;
-
+    @Column(name = "POSITION")
+    private int position;
+    @Column(name = "QUANTITY")
+    private int quantity;
 }

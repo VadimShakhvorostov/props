@@ -2,7 +2,7 @@ package props.service.imp;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import props.model.Composition;
+import props.dto.composition.Composition;
 import props.repository.CompositionRepository;
 import props.service.CompositionService;
 

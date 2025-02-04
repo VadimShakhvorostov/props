@@ -1,8 +1,7 @@
 package props.service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import props.model.Diploma;
+import props.dto.diploma.Diploma;
 
 import java.util.List;
 import java.util.Map;
